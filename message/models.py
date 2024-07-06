@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.db import models
+from django.utils import timezone
 
 NULLABLE = {'null': True, 'blank': True}
 
@@ -21,9 +22,10 @@ class Client(models.Model):
     name = models.CharField(max_length=100, verbose_name='Имя')
     email = models.EmailField(verbose_name='почта', unique=True)
     comment = models.TextField(verbose_name='комментарий', **NULLABLE)
+    message = models.ForeignKey(Message, on_delete=models.CASCADE, verbose_name='сообщение')
 
     def __str__(self):
-        return f'{self.name}, {self.email}'
+        return f'{self.name}'
 
     class Meta:
         verbose_name = "Клиент"
@@ -49,3 +51,16 @@ class Send(models.Model):
 
     def __str__(self):
         return f'Рассылка {self.id} - {self.status}'
+
+
+class MailingLog(models.Model):
+    log_text = models.TextField(verbose_name='текст лога', help_text='введите текст лога', default=timezone.now())
+
+    send = models.ForeignKey(Send, on_delete=models.CASCADE, verbose_name='логгируемая рассылка',
+                             help_text='логгируемая рассылка', related_name='mailing_logged')
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='дата создания',
+                                      help_text='введите дату создания лога')
+    status = models.BooleanField(default=True, verbose_name='статус попытки', help_text='введите статус попытки')
+    mail_answer = models.TextField(verbose_name='ответ почтового сервера', help_text='введите ответ почтового сервера',
+                                   default='No sending, create or change')
