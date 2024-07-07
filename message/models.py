@@ -39,11 +39,12 @@ class Send(models.Model):
     PERIODICITY_CHOICE = [('daily', 'каждый день'),
                           ('weekly', 'каждую неделю'),
                           ('monthly', 'каждый месяц')]
-    date_and_time_of_first_send = models.DateTimeField(default=datetime.now)
-    periodicity = models.CharField(max_length=50, choices=PERIODICITY_CHOICE, default='daily')
-    status = models.CharField(max_length=50, choices=STATUS_CHOICE, default='created')
-    client = models.ManyToManyField(Client, related_name='mailings')
-    message = models.OneToOneField(Message, on_delete=models.CASCADE)
+    date_and_time_of_first_send = models.DateTimeField(default=datetime.now, verbose_name='Дата создания')
+    periodicity = models.CharField(max_length=50, choices=PERIODICITY_CHOICE, default='daily',
+                                   verbose_name='Частота отправки')
+    status = models.CharField(max_length=50, choices=STATUS_CHOICE, default='created', verbose_name='статус рассылки')
+    client = models.ManyToManyField(Client, related_name='mailings', verbose_name='Адрессаты')
+    message = models.OneToOneField(Message, on_delete=models.CASCADE, verbose_name='Сообщение')
 
     class Meta:
         verbose_name = "Рассылка"

@@ -1,0 +1,61 @@
+{% extends 'message/base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Send Detail</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    .circle {
+      border-radius: 50%;
+      border: 1px solid black;
+      padding: 20px;
+      width: fit-content;
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    p {
+      margin: 10px 0;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 20px;
+      margin-top: 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      color: white;
+      background-color: #007bff;
+    }
+  </style>
+</head>
+<body>
+  <div class="circle">
+    <h1>Send Details</h1>
+    <p>Дата создания: {{ object.date_and_time_of_first_send }}</p>
+    <p>Периодичность: {{ object.get_periodicity_display }}</p>
+    <p>Статус: {{ object.get_status_display }}</p>
+    {% for client in  object.client.all %}
+      <p>Адрессат: {{ client.name }} </p>
+    {% endfor %}
+    <p>Сообщение: {{ object.message }}</p>
+    <a href="{% url 'message:send_list' %}" class="button">Список рассылок</a>
+  </div>
+</body>
+</html>
+{% endblock %}
