@@ -51,17 +51,16 @@ class Send(models.Model):
         verbose_name_plural = "Рассылки"
 
     def __str__(self):
-        return f'Рассылка {self.id} - {self.status}'
+        return f'Рассылка {self.id}'
 
 
 class MailingLog(models.Model):
-    log_text = models.TextField(verbose_name='текст лога', help_text='введите текст лога', default=timezone.now())
-
     send = models.ForeignKey(Send, on_delete=models.CASCADE, verbose_name='логгируемая рассылка',
-                             help_text='логгируемая рассылка', related_name='mailing_logged')
+                             help_text='логгируемая рассылка', related_name='mailing_logs')
 
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='дата создания',
-                                      help_text='введите дату создания лога')
-    status = models.BooleanField(default=True, verbose_name='статус попытки', help_text='введите статус попытки')
-    mail_answer = models.TextField(verbose_name='ответ почтового сервера', help_text='введите ответ почтового сервера',
-                                   default='No sending, create or change')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='дата создания')
+    status = models.BooleanField(verbose_name='статус попытки')
+    mail_answer = models.TextField(verbose_name='ответ почтового сервера')
+
+    def __str__(self):
+        return f'Рассылка {self.created_at}'

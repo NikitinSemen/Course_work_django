@@ -1,13 +1,11 @@
 from django.core.mail import send_mail
 from django.forms import inlineformset_factory
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
-from django.urls import reverse_lazy, reverse
-from django.views import View
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DetailView
 
 from message.forms import MessageForm, ClientForm, SendForm
-from message.models import Message, Client, Send
+from message.models import Message, Client, Send, MailingLog
 
 
 class BaseView(TemplateView):
@@ -61,8 +59,10 @@ class SendListView(ListView):
 class SendDetailView(DetailView):
     model = Send
 
-
-from django.core.mail import send_mail
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mailing_logs'] = self.object.mailing_logs.all()
+        return context
 
 
 class SendCreateView(CreateView):
@@ -79,26 +79,26 @@ class SendCreateView(CreateView):
         send = form.save(commit=False)
         send.save()
 
-        # Получаем объект сообщения
         message = send.message
 
-        # Получаем список клиентов, связанных с сообщением
         clients = message.client_set.all()
-
-        # Формируем тему и текст электронного письма
         subject = message.title
         body = message.text
 
-        # Получаем список получателей электронного письма
         recipients = [client.email for client in clients]
 
-        # Отправляем электронное письмо
-        send_mail(
+        result = send_mail(
             subject=subject,
             message=body,
             from_email='dirtyslap@yandex.ru',
             recipient_list=recipients,
             fail_silently=False,
+        )
+
+        mailing_log = MailingLog.objects.create(
+            send=send,
+            status=result == 1,
+            mail_answer=f'Сообщение "{message}", получателей - {len(recipients)}',
         )
 
         return super().form_valid(form)

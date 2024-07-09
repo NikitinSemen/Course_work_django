@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from message.models import Client, Message, Send
+from message.models import Client, Message, Send, MailingLog
 
 
 @admin.register(Client)
@@ -16,4 +16,9 @@ class MessageAdmin(admin.ModelAdmin):
 
 @admin.register(Send)
 class SendAdmin(admin.ModelAdmin):
-    list_display = (Client, Message, 'periodicity', 'date_and_time_of_first_send', "status")
+    list_display = (Client, Message, 'periodicity', 'date_and_time_of_first_send', 'status')
+
+
+@admin.register(MailingLog)
+class MailingLogAdmin(admin.ModelAdmin):
+    list_display = (Send, 'created_at', 'status', 'mail_answer')
