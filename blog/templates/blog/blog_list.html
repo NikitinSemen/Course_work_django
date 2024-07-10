@@ -1,0 +1,23 @@
+{% extends 'message/base.html' %}
+{% load my_tags %}
+{% block content %}
+
+<div class="d-flex flex-row">
+    {% for object in object_list %}
+    <div class="card col" style="width: 18rem;">
+        <img src="{{ object.photo | media_filter }}">
+        <div class="card-body">
+            <h5 class="card-title">{{ object|title }}</h5>
+            <p class="card-text">{{ object.content }}</p>
+            <div class="btn-group">
+                <a class="btn btn-primary" href="{% url 'blog:detail' object.pk %}"
+                   role="button">Детали</a>
+                <a class="btn btn-primary" href="{% url 'blog:update' object.pk %}" role="button">Изменить</a>
+                <a class="btn btn-primary" href="{% url 'blog:delete' object.pk %}" role="button">Удалить</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+

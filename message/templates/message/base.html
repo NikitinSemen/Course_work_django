@@ -93,9 +93,11 @@
            display: flex;
            justify-content: center;
            align-items: center;
-           height: 100vh;
-           margin-top: 50px;
+           height: 75vh;
+           margin-top: 5px;
         }
+
+}
     </style>
 
 
@@ -169,22 +171,17 @@
     </ul>
 </div>
 
+<header data-bs-theme="dark">
+    {% include 'message/includes/inc_menu.html' %}
+</header>
 
-<main>
 
+<main class="center-vertically">
     {% block content %}
     {% endblock %}
-
 </main>
 
-<footer class="text-body-secondary py-5">
-    <div class="container">
-        <p class="float-end mb-1">
-            <a href="{% url 'message:message_list' %}">Главная</a>
-        </p>
 
-    </div>
-</footer>
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 
 </body>

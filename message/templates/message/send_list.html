@@ -1,25 +1,18 @@
 {% extends 'message/base.html' %}
 
 {% block content %}
-  <div class="album py-5 bg-dark text-white">
-    <div class="container">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        {% for send in object_list %}
-          <div class="col">
-            <div class="card shadow-sm text-center">
-              <div class="card-body d-flex flex-column justify-content-center">
-                <h5 class="card-title">Рассылки</h5>
-                <ul class="list-unstyled">
-                  <li>{{ send }}</li>
-                </ul>
-              </div>
-              <div class="card-footer d-flex justify-content-center align-items-center">
-                <div class="btn-group">
-                  <a class="btn btn-primary" href="{% url 'message:send_detail' send.pk %}" role="button">Посмотреть</a>
-                </div>
-              </div>
-            </div>
-          </div>
+ {% for send in object_list %}
+<div class="card" style="width: 18rem;">
+
+  <div class="card-body">
+    <h5 class="card-title">{{ send.created_at|date:"d-m-Y H:i" }}</h5>
+    <p class="card-text">{{ send.message }}</p>
+    <p class="card-text">{{ send.periodicity }}</p>
+    <p class="card-text">{{ send.status }}</p>
+    <p class="card-text">{{ send.client }}</p>
+    <a href="{% url 'message:send_detail' send.pk %}" class="btn btn-primary">Детали</a>
+  </div>
+</div>
         {% endfor %}
       </div>
     </div>
