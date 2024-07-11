@@ -1,0 +1,99 @@
+{% extends 'message/base.html' %}
+{% block content %}
+
+<style>
+    .card {
+        margin-top: 50px; /* Добавляем отступ сверху */
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card-title {
+        margin-bottom: 20px;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 16px;
+        cursor: pointer;
+    }
+</style>
+
+<div class="col-12">
+    <form class="row" method="post" enctype="multipart/form-data">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        Сообщение
+                    </h3>
+                </div>
+                <div class="card-body">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-success mt-3">
+                        {% if object %}
+                        Изменить
+                        {% else %}
+                        Сохранить
+                        {% endif %}
+                    </button>
+                </div>
+                <div class="card-footer"></div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        Адрессат
+                    </h3>
+                </div>
+                <div class="card-body">
+                    {% if object %}
+                    {{ formset.management_form }}
+                    {% for form in formset.forms %}
+                    {{ form.as_p }}
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="card-footer"></div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        Адрессат
+                    </h3>
+                </div>
+                <div class="card-body">
+                    {% if object %}
+                    {{ formset.management_form }}
+                    {% for form in formset.forms %}
+                    {{ form.as_p }}
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-success mt-1 mb-5">Создать</button>
+                <div class="card-footer"></div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container">
+    <p class="float-end mb-1">
+        <a href="{% url 'message:message_list' %}">Главная</a>
+    </p>
+</div>
+{% endblock %}

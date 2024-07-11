@@ -1,0 +1,20 @@
+{% extends 'message/base.html' %}
+
+{% block content %}
+ {% for send in object_list %}
+<div class="card" style="width: 18rem;">
+
+  <div class="card-body">
+    <h5 class="card-title">{{ send.created_at|date:"d-m-Y H:i" }}</h5>
+    <p class="card-text">{{ send.message }}</p>
+    <p class="card-text">{{ send.periodicity }}</p>
+    <p class="card-text">{{ send.status }}</p>
+    <p class="card-text">{{ send.client }}</p>
+    <a href="{% url 'message:send_detail' send.pk %}" class="btn btn-primary">Детали</a>
+  </div>
+</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'message/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    <div class='class-header'>
+                        <h3 class="card-title">
+                            Вход
+                        </h3>
+                    </div>
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button type="submit" class="btn btn-primary rounded-pill px-4">
+                            Войти
+                        </button>
+                        <a class="btn btn-primary rounded-pill px-4" href="{% url 'users:register' %}" role="button">Регистрация</a>
+                        <a class="btn btn-primary rounded-pill px-4" href="{% url 'users:password_recovery'%}" role="button">Забыли пароль?</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
