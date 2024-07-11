@@ -2,7 +2,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 
 from users.apps import UsersConfig
-from users.views import RegisterView
+from users.views import RegisterView, email_verification, password_recovery
 
 app_name = UsersConfig.name
 
@@ -11,4 +11,6 @@ urlpatterns = [
          name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', RegisterView.as_view(), name='register'),
+    path('email-confirm/<str:token>/', email_verification, name='email-confirm'),
+    path("password_recovery/", password_recovery, name='password_recovery'),
 ]

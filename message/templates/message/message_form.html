@@ -52,7 +52,7 @@
                 <div class="card-footer"></div>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-3">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">
@@ -64,10 +64,28 @@
                     {{ formset.management_form }}
                     {% for form in formset.forms %}
                     {{ form.as_p }}
-                    <button type="submit" class="btn btn-success mt-3">Создать</button>
                     {% endfor %}
                     {% endif %}
                 </div>
+                <div class="card-footer"></div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        Адрессат
+                    </h3>
+                </div>
+                <div class="card-body">
+                    {% if object %}
+                    {{ formset.management_form }}
+                    {% for form in formset.forms %}
+                    {{ form.as_p }}
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-success mt-1 mb-5">Создать</button>
                 <div class="card-footer"></div>
             </div>
         </div>

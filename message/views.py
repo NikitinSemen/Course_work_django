@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
@@ -22,7 +23,7 @@ class MessageCreateView(CreateView):
         return HttpResponseRedirect(reverse('message:message_update', kwargs={'pk': instance.pk}))
 
 
-class MessageListView(ListView):
+class MessageListView(LoginRequiredMixin, ListView):
     model = Message
 
 

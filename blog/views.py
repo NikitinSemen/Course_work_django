@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -6,13 +7,8 @@ from pytils.translit import slugify
 from blog.models import Blog
 
 
-class BlogListView(ListView):
+class BlogListView(LoginRequiredMixin, ListView):
     model = Blog
-
-    # def get_queryset(self, *args, **kwargs):
-    #     queryset = super().get_queryset()
-    #     queryset = queryset.filter(is_published=True)
-    #     return queryset
 
 
 class BlogDetailView(DetailView):
@@ -25,7 +21,7 @@ class BlogDetailView(DetailView):
         return self.object
 
 
-class BlogCreateView(CreateView):
+class BlogCreateView(LoginRequiredMixin, CreateView):
     model = Blog
     fields = ('title', 'content', 'photo')
     success_url = reverse_lazy('blog:list')

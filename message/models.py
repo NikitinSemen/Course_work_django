@@ -3,6 +3,8 @@ from datetime import datetime
 from django.db import models
 from django.utils import timezone
 
+from users.models import User
+
 NULLABLE = {'null': True, 'blank': True}
 
 
@@ -45,6 +47,7 @@ class Send(models.Model):
     status = models.CharField(max_length=50, choices=STATUS_CHOICE, default='created', verbose_name='статус рассылки')
     client = models.ManyToManyField(Client, related_name='mailings', verbose_name='Адрессаты')
     message = models.OneToOneField(Message, on_delete=models.CASCADE, verbose_name='Сообщение')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь')
 
     class Meta:
         verbose_name = "Рассылка"
