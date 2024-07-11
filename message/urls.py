@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.decorators.cache import cache_page
 
 from message.apps import MessageConfig
 from message.views import BaseView, MessageCreateView, MessageListView, SendListView, MessageUpdateView, SendDetailView, \
@@ -12,6 +13,6 @@ urlpatterns = [
     path('message/<int:pk>/update/', MessageUpdateView.as_view(), name='message_update'),
     path('send/', SendListView.as_view(), name='send_list'),
     path('send/<int:pk>/', SendDetailView.as_view(), name='send_detail'),
-    path('send/create/<int:pk>/', SendCreateView.as_view(), name='send_create'),
-    path('send/<int:pk>/update/', SendUpdateView.as_view(), name='send_update'),
+    path('send/create/<int:pk>/', cache_page(60)(SendCreateView.as_view()), name='send_create'),
+    path('send/<int:pk>/update/', SendUpdateView.as_view(), name='send_update')
 ]
